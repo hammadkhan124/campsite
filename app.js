@@ -26,7 +26,6 @@ const mongosanitize = require("express-mongo-sanitize");
 const usersroutes = require("./routes/users");
 const campgroundsroutes = require("./routes/campgrounds");
 const reviewsroutes = require("./routes/reviews");
-const port = Process.env.PORT || 3000;
 
 //const dburl = process.env.DB_URL;
 //"mongodb://localhost:27017/camp"
@@ -157,6 +156,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { err });
 });
 
-app.listen(port, () => {
+app.listen(27, () => {
   console.log("app is started at port no 27");
 });
