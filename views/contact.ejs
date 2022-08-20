@@ -1,0 +1,119 @@
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campsite Contact-form</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/stylesheets/app.css">
+
+</head>
+
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Wecome to Campground</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/campgrounds">Campground</a>
+                <a class="nav-link" href="/campgrounds/new">New Campground</a>
+            </div>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+		<div class="row">
+			<h1 class="text-center">Enter User Detail:</h1>
+			<div class="col-md-6 offset-md-3">
+				<form action="/contact" class="contact-form" method="post" onsubmit="return submitEmailForm(this);">
+				<!--<form action="/contact" method="POST" novalidate class="validated-form" enctype="multipart/form-data" onsubmit="return submitEmailForm(this);"> -->
+					<div class="mb-3">
+						<label class="form-label" for="name">Name</label>
+						<input class="form-control" type="text" id="name" name="name" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="email">Email</label>
+						<input class="form-control" type="email" id="email" name="email" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="cnic">CNIC No</label>
+						<input class="form-control" type="text" id="cnic" name="cnic" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="phoneno">Phone No</label>
+						<input class="form-control" type="text" id="phoneno" name="phoneno" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="arrival date">Arrival Date</label>
+						<input class="form-control" type="date" id="arrival" name="arrival" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="booking place">Booking Place Name</label>
+						<input class="form-control" type="text" id="booking" name="booking" required>
+						<div class="valid-feedback">
+							looks good!
+						</div>
+					</div>
+					<div class="mb-3">
+						<input type="radio">
+						<label class="form-label" for="booking place">Please fill this form carefully.After form submission we send you confirmation mail.</label>
+					</div>
+				   
+					<div class="mb-3">
+						<button type="submit" class="btn btn-success">Submit</button>
+					</div>
+					
+				</form>
+				</div>
+				</div>
+
+				<footer class="footer bg-dark py-3 mt-auto" style="margin-left: 0;">
+					<div class="container">
+						<span class="text-muted"> &copy Campground 2021</span>
+					</div>
+				</footer>
+				
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+		<script src='/javascripts/validateform.js'></script>
+
+
+</body>
+
+
+
+
