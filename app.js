@@ -24,10 +24,10 @@ const helmet = require("helmet");
 const nodemailer = require("nodemailer");
 const mongosanitize = require("express-mongo-sanitize");
 
+
 const usersroutes = require("./routes/users");
 const campgroundsroutes = require("./routes/campgrounds");
 const reviewsroutes = require("./routes/reviews");
-
 //const dburl = process.env.DB_URL;
 //"mongodb://localhost:27017/camp"
 //const MongoStore = require("connect-mongo");
@@ -59,6 +59,7 @@ app.use(
   })
 );
 
+
 // session config
 
 const secret = process.env.SECRET || "this is my secret";
@@ -77,53 +78,80 @@ const sessionconfig = {
 };
 app.use(session(sessionconfig));
 app.use(flash());
-/*
-app.use(helmet());
+
+app.use(helmet({
+  crossOriginEmbedderPolicy: false}
+  ));
 
 const scriptSrcUrls = [
-  "https://stackpath.bootstrapcdn.com/",
-  "https://api.tiles.mapbox.com/",
-  "https://api.mapbox.com/",
-  "https://kit.fontawesome.com/",
-  "https://cdnjs.cloudflare.com/",
-  "https://cdn.jsdelivr.net",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
 ];
 const styleSrcUrls = [
-  "https://kit-free.fontawesome.com/",
-  "https://stackpath.bootstrapcdn.com/",
-  "https://api.mapbox.com/",
-  "https://api.tiles.mapbox.com/",
-  "https://fonts.googleapis.com/",
-  "https://use.fontawesome.com/",
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
 ];
 const connectSrcUrls = [
-  "https://api.mapbox.com/",
-  "https://a.tiles.mapbox.com/",
-  "https://b.tiles.mapbox.com/",
-  "https://events.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
 ];
 const fontSrcUrls = [];
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: [],
-      connectSrc: ["'self'", ...connectSrcUrls],
-      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      workerSrc: ["'self'", "blob:"],
-      objectSrc: [],
-      imgSrc: [
-        "'self'",
-        "blob:",
-        "data:",
-        "https://res.cloudinary.com/hamad/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
-        "https://images.unsplash.com/",
-      ],
-      fontSrc: ["'self'", ...fontSrcUrls],
-    },
-  })
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/hamad/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
 );
-*/
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localstrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+  console.log(req.query);
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
+
+// campgrounds routes
+app.use("/", usersroutes);
+app.use("/campgrounds", campgroundsroutes);
+app.use("/campgrounds/:id/reviews", reviewsroutes);
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
 // mail api
 
@@ -166,29 +194,8 @@ app.get("/contact.ejs", function (req, res) {
 
 
 
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new localstrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
-  console.log(req.query);
-  res.locals.currentUser = req.user;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
-
-// campgrounds routes
-app.use("/", usersroutes);
-app.use("/campgrounds", campgroundsroutes);
-app.use("/campgrounds/:id/reviews", reviewsroutes);
-
-app.get("/", (req, res) => {
-  res.render("home");
-});
 
 // all errors
 app.all("*", (err, req, res, next) => {
